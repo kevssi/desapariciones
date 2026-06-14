@@ -19,8 +19,28 @@
       "destination": "backend/server.js"
     },
     {
+      "source": "/static/:path*",
+      "destination": "/frontend/static/:path*"
+    },
+    {
+      "source": "/hero_hope_illustration.png",
+      "destination": "/frontend/hero_hope_illustration.png"
+    },
+    {
+      "source": "/hero_hope_illustration_minimalist.png",
+      "destination": "/frontend/hero_hope_illustration_minimalist.png"
+    },
+    {
+      "source": "/logo.svg",
+      "destination": "/frontend/logo.svg"
+    },
+    {
+      "source": "/search_solidarity.png",
+      "destination": "/frontend/search_solidarity.png"
+    },
+    {
       "source": "/((?!api/).*)",
-      "destination": "/index.html"
+      "destination": "/frontend/index.html"
     }
   ]
 }
