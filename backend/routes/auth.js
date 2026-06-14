@@ -27,9 +27,9 @@ router.post('/register', async (req, res) => {
       { expiresIn: '7d' }
     );
 
-    res.status(201).json({ 
-      message: 'User registered', 
-      token, 
+    res.status(201).json({
+      message: 'User registered',
+      token,
       userId,
       nombre,
       apellido
@@ -65,9 +65,9 @@ router.post('/login', async (req, res) => {
       { expiresIn: '7d' }
     );
 
-    res.json({ 
-      message: 'Login successful', 
-      token, 
+    res.json({
+      message: 'Login successful',
+      token,
       userId: user.id,
       nombre: user.nombre,
       apellido: user.apellido
