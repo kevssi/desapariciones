@@ -1,0 +1,265 @@
+.navbar {
+  background: rgba(15, 23, 42, 0.92); /* Slate dark glass background */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 2px solid rgba(43, 125, 158, 0.4); /* Glowing cyan-teal boundary */
+  box-shadow: 0 4px 20px rgba(43, 125, 158, 0.15); /* Soft neon cyan drop glow */
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: white;
+  transition: transform 0.25s ease;
+}
+
+.navbar-logo-svg {
+  height: 42px;
+  width: 42px;
+  color: #55efc4; /* Neon mint-teal */
+  filter: drop-shadow(0 0 8px rgba(85, 239, 196, 0.6)); /* Glowing radar */
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.navbar-brand:hover .navbar-logo-svg {
+  transform: rotate(25deg) scale(1.1);
+  color: #55efc4;
+  filter: drop-shadow(0 0 12px rgba(85, 239, 196, 0.85));
+}
+
+.brand-text {
+  font-size: 26px;
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  font-family: 'Outfit', sans-serif;
+}
+
+.brand-text-found {
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.brand-text-me {
+  font-weight: 400;
+  color: #55efc4; /* Neon text accent */
+  margin-left: 2px;
+  filter: drop-shadow(0 0 10px rgba(85, 239, 196, 0.6));
+}
+
+.navbar-brand:hover {
+  transform: translateY(-0.5px);
+}
+
+/* Menu Toggle Button (Hamburger) */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: #55efc4;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 0 5px rgba(85, 239, 196, 0.4));
+}
+
+.menu-toggle:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 24px;
+  align-items: center;
+}
+
+.nav-menu a {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'Outfit', sans-serif;
+  position: relative;
+  padding: 8px 0;
+  transition: color 0.25s ease;
+}
+
+.nav-menu a:hover {
+  color: #55efc4;
+  opacity: 1;
+}
+
+/* Sliding futuristic gradient underline for standard links */
+.nav-menu a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(90deg, #55efc4, #2b7d9e);
+  transform-origin: bottom right;
+  transition: transform 0.3s ease-out;
+}
+
+.nav-menu a:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* === Custom CTA Buttons in Menu === */
+
+/* Register button CTA */
+.nav-menu a[href="/register"] {
+  background: linear-gradient(135deg, #2b7d9e 0%, #1e9b8f 100%);
+  color: white;
+  padding: 9px 22px;
+  border-radius: 30px;
+  box-shadow: 0 4px 15px rgba(43, 125, 158, 0.3);
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  font-weight: 700;
+}
+
+.nav-menu a[href="/register"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(85, 239, 196, 0.35);
+  color: white;
+}
+
+.nav-menu a[href="/register"]::after {
+  display: none;
+}
+
+/* Create Post button CTA */
+.nav-menu a[href="/create"] {
+  background: rgba(85, 239, 196, 0.1);
+  color: #55efc4;
+  padding: 9px 22px;
+  border-radius: 30px;
+  border: 1.5px solid rgba(85, 239, 196, 0.3);
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  font-weight: 700;
+}
+
+.nav-menu a[href="/create"]:hover {
+  background: #55efc4;
+  color: #0f172a;
+  border-color: #55efc4;
+  box-shadow: 0 6px 15px rgba(85, 239, 196, 0.4);
+  transform: translateY(-2px);
+}
+
+.nav-menu a[href="/create"]::after {
+  display: none;
+}
+
+/* Logout button */
+.logout-btn {
+  background: rgba(239, 68, 68, 0.12);
+  color: #f87171;
+  border: 1.5px solid rgba(239, 68, 68, 0.3);
+  padding: 8px 18px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: 'Outfit', sans-serif;
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.logout-btn:hover {
+  background: #ef4444;
+  color: white;
+  border-color: #ef4444;
+  box-shadow: 0 6px 15px rgba(239, 68, 68, 0.4);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block; /* Show menu toggle button on mobile */
+  }
+
+  .navbar-container {
+    height: 70px;
+    flex-direction: row;
+    justify-content: space-between;
+    position: relative;
+  }
+
+  .nav-menu {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: rgba(15, 23, 42, 0.96);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 2px solid rgba(43, 125, 158, 0.45);
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: max-height 0.45s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.3s ease;
+    padding: 0;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  }
+
+  .nav-menu.active {
+    max-height: 320px;
+    opacity: 1;
+    pointer-events: auto;
+    padding: 20px 0;
+  }
+
+  .nav-menu li {
+    width: 100%;
+    text-align: center;
+    padding: 8px 0;
+  }
+
+  .nav-menu a {
+    display: inline-block;
+    width: 80%;
+    padding: 12px 0;
+  }
+  
+  .nav-menu a::after {
+    display: none; /* disable sliding lines on mobile */
+  }
+
+  .nav-menu a[href="/register"],
+  .nav-menu a[href="/create"],
+  .logout-btn {
+    width: 80%;
+    max-width: 250px;
+    text-align: center;
+    margin: 8px auto;
+    display: block;
+  }
+}

@@ -1,0 +1,634 @@
+/* === Person Detail Page === */
+.person-detail-page {
+  padding: 20px;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.detail-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  padding: 36px;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #2b7d9e;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 24px;
+  transition: color 0.2s;
+}
+.back-link:hover { color: #1e9b8f; }
+
+.detail-error-banner {
+  background: #fdecea;
+  color: #c0392b;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+/* === Header === */
+.detail-header {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+@media (max-width: 640px) {
+  .detail-header { grid-template-columns: 1fr; }
+}
+
+.detail-photo-wrapper {
+  border-radius: 10px;
+  overflow: hidden;
+  max-height: 360px;
+}
+
+.detail-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.detail-status-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.detail-info h1 {
+  font-size: 28px;
+  color: #1a1a2e;
+  margin: 0 0 16px;
+}
+
+.detail-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #555;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.detail-meta span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.detail-descripcion {
+  color: #444;
+  line-height: 1.7;
+  font-size: 15px;
+  margin-bottom: 24px;
+}
+
+/* === Owner Actions === */
+.owner-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  background: #2b7d9e;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.btn-edit:hover { background: #1e6d8e; }
+
+.btn-delete {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  background: #fdecea;
+  color: #c0392b;
+  border: 1px solid #f5c6cb;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-delete:hover { background: #f9d5d3; }
+
+/* === Status Section === */
+.status-section {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 32px;
+}
+
+.status-section h3 {
+  margin: 0 0 16px;
+  color: #333;
+  font-size: 16px;
+}
+
+.status-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.status-btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: white;
+}
+
+.status-btn.activa { border-color: #e74c3c; color: #e74c3c; }
+.status-btn.activa.active,
+.status-btn.activa:hover:not(:disabled) { background: #e74c3c; color: white; }
+
+.status-btn.encontrada { border-color: #27ae60; color: #27ae60; }
+.status-btn.encontrada.active,
+.status-btn.encontrada:hover:not(:disabled) { background: #27ae60; color: white; }
+
+.status-btn.cerrada { border-color: #7f8c8d; color: #7f8c8d; }
+.status-btn.cerrada.active,
+.status-btn.cerrada:hover:not(:disabled) { background: #7f8c8d; color: white; }
+
+.status-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* === Comments === */
+.comments-section {
+  border-top: 1px solid #eee;
+  padding-top: 28px;
+}
+
+.comments-section h3 {
+  margin: 0 0 20px;
+  color: #333;
+  font-size: 18px;
+}
+
+.comment-form {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.comment-form textarea {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+.comment-form textarea:focus {
+  outline: none;
+  border-color: #2b7d9e;
+  box-shadow: 0 0 0 3px rgba(43,125,158,0.1);
+}
+
+.comment-form-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.char-count {
+  font-size: 12px;
+  color: #999;
+}
+
+.comment-form-footer button {
+  padding: 9px 24px;
+  background: #2b7d9e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.comment-form-footer button:hover:not(:disabled) { background: #1e9b8f; }
+.comment-form-footer button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.login-to-comment {
+  background: #f0f8ff;
+  border: 1px solid #bee3f8;
+  padding: 14px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 24px;
+}
+.login-to-comment a {
+  color: #2b7d9e;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.no-comments, .comments-loading {
+  text-align: center;
+  color: #999;
+  font-size: 14px;
+  padding: 20px;
+}
+
+.comment-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.comment-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2b7d9e, #1e9b8f);
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.comment-body {
+  flex: 1;
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 12px 16px;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.comment-header strong {
+  font-size: 14px;
+  color: #1a1a2e;
+}
+
+.comment-date {
+  font-size: 12px;
+  color: #999;
+}
+
+.comment-content {
+  font-size: 14px;
+  color: #444;
+  line-height: 1.6;
+  margin: 0 0 8px;
+}
+
+/* === Comment Action Buttons === */
+.comment-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.comment-action-btn {
+  background: none;
+  border: none;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 2px 0;
+  transition: opacity 0.15s;
+}
+
+.comment-action-btn:hover {
+  opacity: 0.8;
+}
+
+.comment-action-btn.reply-btn {
+  color: #2b7d9e;
+}
+
+.comment-action-btn.edit-btn {
+  color: #555;
+}
+
+.comment-action-btn.delete-btn {
+  color: #c0392b;
+}
+
+/* === Comment Threads & Replies === */
+.comment-thread-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-bottom: 1px solid #f0f2f5;
+  padding-bottom: 16px;
+}
+
+.comment-thread-container:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.replies-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-left: 54px; /* Indentation for replies */
+  border-left: 2px solid #e2e8f0;
+  padding-left: 14px;
+}
+
+.comment-reply-item {
+  background: #fbfcfd;
+}
+
+.reply-indicator {
+  font-size: 11px;
+  color: #718096;
+  background: #edf2f7;
+  padding: 1px 6px;
+  border-radius: 4px;
+  margin-left: 6px;
+  font-weight: normal;
+}
+
+/* === Inline Forms (Edit/Reply) === */
+.edit-comment-form, .reply-comment-form {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.edit-comment-form textarea, .reply-comment-form textarea {
+  width: 100%;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 50px;
+  box-sizing: border-box;
+}
+
+.edit-comment-form textarea:focus, .reply-comment-form textarea:focus {
+  outline: none;
+  border-color: #2b7d9e;
+}
+
+.edit-form-footer, .reply-form-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.edit-form-footer button, .reply-form-footer button {
+  padding: 5px 12px;
+  font-size: 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn-cancel-edit, .btn-cancel-reply {
+  background: #edf2f7;
+  color: #4a5568;
+  border: 1px solid #cbd5e0;
+}
+
+.btn-cancel-edit:hover, .btn-cancel-reply:hover {
+  background: #e2e8f0;
+}
+
+.btn-save-edit, .btn-submit-reply {
+  background: #2b7d9e;
+  color: white;
+  border: none;
+}
+
+.btn-save-edit:hover, .btn-submit-reply:hover {
+  background: #1e9b8f;
+}
+
+.btn-save-edit:disabled, .btn-submit-reply:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* === Detail Señas Block === */
+.detail-senas {
+  background: #f7fafc;
+  border-left: 3px solid #1e9b8f;
+  padding: 12px 16px;
+  border-radius: 0 6px 6px 0;
+  margin-bottom: 20px;
+}
+
+.detail-senas strong {
+  font-size: 13px;
+  color: #4a5568;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detail-senas p {
+  margin: 4px 0 0 0;
+  color: #2d3748;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* === Carousel Styles === */
+.carousel-container {
+  position: relative;
+  width: 100%;
+  height: 360px;
+  background: #f7fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
+  border: none;
+  font-size: 24px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  z-index: 10;
+  user-select: none;
+}
+
+.carousel-btn:hover {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.carousel-btn.prev {
+  left: 10px;
+}
+
+.carousel-btn.next {
+  right: 10px;
+}
+
+.carousel-indicators {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 10;
+}
+
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.carousel-dot:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.carousel-dot.active {
+  background: white;
+  transform: scale(1.25);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+/* === Loading/Error states === */
+.detail-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  gap: 16px;
+  color: #666;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #eee;
+  border-top-color: #2b7d9e;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.detail-error {
+  text-align: center;
+  padding: 60px 20px;
+  color: #c0392b;
+}
+.detail-error a {
+  display: inline-block;
+  margin-top: 16px;
+  color: #2b7d9e;
+}
+
+/* === Mention Styling === */
+.comment-mention {
+  color: #2b7d9e;
+  font-weight: 700;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.comment-mention:hover {
+  color: #1e9b8f;
+}
+
+/* === Bookmark Save Button === */
+.btn-save-post {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f8fafc;
+  color: #4a5568;
+  border: 1px solid #cbd5e0;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-save-post:hover {
+  background: #edf2f7;
+  border-color: #a0aec0;
+}
+
+.btn-save-post.saved {
+  background: rgba(43, 125, 158, 0.08);
+  color: #2b7d9e;
+  border-color: rgba(43, 125, 158, 0.3);
+}
+
+.btn-save-post.saved:hover {
+  background: rgba(43, 125, 158, 0.15);
+}
+
