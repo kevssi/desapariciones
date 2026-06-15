@@ -31,14 +31,14 @@ const validatePersonData = (data, isUpdate = false) => {
   if (!isUpdate || descripcion !== undefined) {
     if (!descripcion || !descripcion.trim()) {
       errors.push('Descripción es requerida');
-    } else if (descripcion.length > 150) {
-      errors.push('La descripción no puede exceder los 150 caracteres');
+    } else if (descripcion.length > 500) {
+      errors.push('La descripción no puede exceder los 500 caracteres');
     }
   }
 
   if (senas_particulares !== undefined && senas_particulares !== null) {
-    if (senas_particulares.length > 150) {
-      errors.push('Las señas particulares no pueden exceder los 150 caracteres');
+    if (senas_particulares.length > 500) {
+      errors.push('Las señas particulares no pueden exceder los 500 caracteres');
     }
   }
 

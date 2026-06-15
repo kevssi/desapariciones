@@ -210,9 +210,9 @@ export const EditPostPage = () => {
               value={formData.senas_particulares}
               onChange={handleChange}
               rows="3"
-              maxLength="150"
+              maxLength="500"
             />
-            <small className="char-limit">{(formData.senas_particulares || '').length}/150</small>
+            <small className="char-limit">{(formData.senas_particulares || '').length}/500</small>
           </div>
 
           <div className="textarea-container">
@@ -222,10 +222,10 @@ export const EditPostPage = () => {
               value={formData.descripcion}
               onChange={handleChange}
               rows="5"
-              maxLength="150"
+              maxLength="500"
               required
             />
-            <small className="char-limit">{(formData.descripcion || '').length}/150</small>
+            <small className="char-limit">{(formData.descripcion || '').length}/500</small>
           </div>
 
           {/* Fotos */}
