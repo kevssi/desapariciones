@@ -241,3 +241,24 @@
   border-color: #2b7d9e;
   box-shadow: 0 0 0 3px rgba(43, 125, 158, 0.1);
 }
+
+/* === Responsive Adjustments === */
+@media (max-width: 600px) {
+  .create-post-page {
+    padding: 12px;
+  }
+
+  .form-container {
+    padding: 24px 16px;
+  }
+
+  .form-container h1 {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
