@@ -24,6 +24,7 @@ export const CreatePostPage = () => {
   const [imagePreviews, setImagePreviews] = useState([]);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [error, setError] = useState('');
+  const [validationErrors, setValidationErrors] = useState([]);
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
@@ -98,6 +99,7 @@ export const CreatePostPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setValidationErrors([]);
     setLoading(true);
 
     try {
@@ -121,6 +123,9 @@ export const CreatePostPage = () => {
     } catch (err) {
       setUploadingImage(false);
       setError(err.response?.data?.message || err.message || 'Error al crear la publicación');
+      if (err.response?.data?.errors) {
+        setValidationErrors(err.response.data.errors);
+      }
     } finally {
       setLoading(false);
     }
@@ -130,7 +135,18 @@ export const CreatePostPage = () => {
     <div className="create-post-page">
       <div className="form-container">
         <h1>Publicar Persona Desaparecida</h1>
-        {error && <div className="error-message">{error}</div>}
+        {error && (
+          <div className="error-message">
+            <strong>{error}</strong>
+            {validationErrors.length > 0 && (
+              <ul style={{ margin: '8px 0 0 20px', padding: 0, textAlign: 'left' }}>
+                {validationErrors.map((errText, idx) => (
+                  <li key={idx}>{errText}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
         
         <form onSubmit={handleSubmit}>
           <div className="form-row">

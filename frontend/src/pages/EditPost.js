@@ -22,6 +22,7 @@ export const EditPostPage = () => {
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
   const [error, setError] = useState('');
+  const [validationErrors, setValidationErrors] = useState([]);
   const fileInputRef = useRef(null);
 
   useEffect(() => {
@@ -130,6 +131,7 @@ export const EditPostPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setValidationErrors([]);
     setLoading(true);
 
     try {
@@ -150,6 +152,9 @@ export const EditPostPage = () => {
     } catch (err) {
       setUploadingImage(false);
       setError(err.response?.data?.message || err.message || 'Error al guardar los cambios.');
+      if (err.response?.data?.errors) {
+        setValidationErrors(err.response.data.errors);
+      }
     } finally {
       setLoading(false);
     }
@@ -167,7 +172,18 @@ export const EditPostPage = () => {
     <div className="create-post-page">
       <div className="form-container">
         <h1>Editar Publicación</h1>
-        {error && <div className="error-message">{error}</div>}
+        {error && (
+          <div className="error-message">
+            <strong>{error}</strong>
+            {validationErrors.length > 0 && (
+              <ul style={{ margin: '8px 0 0 20px', padding: 0, textAlign: 'left' }}>
+                {validationErrors.map((errText, idx) => (
+                  <li key={idx}>{errText}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit}>
           <div className="form-row">
