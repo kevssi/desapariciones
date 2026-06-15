@@ -7,7 +7,7 @@ const router = express.Router();
 
 const validatePersonData = (data, isUpdate = false) => {
   const errors = [];
-  const { nombre, apellido, edad, descripcion, fecha_desaparicion, ubicacion, sexo, telefono, foto, estado } = data;
+  const { nombre, apellido, edad, descripcion, fecha_desaparicion, ubicacion, sexo, telefono, foto, estado, senas_particulares } = data;
 
   if (!isUpdate || nombre !== undefined) {
     if (!nombre || !nombre.trim() || nombre.length > 100) {
@@ -31,6 +31,14 @@ const validatePersonData = (data, isUpdate = false) => {
   if (!isUpdate || descripcion !== undefined) {
     if (!descripcion || !descripcion.trim()) {
       errors.push('Descripción es requerida');
+    } else if (descripcion.length > 150) {
+      errors.push('La descripción no puede exceder los 150 caracteres');
+    }
+  }
+
+  if (senas_particulares !== undefined && senas_particulares !== null) {
+    if (senas_particulares.length > 150) {
+      errors.push('Las señas particulares no pueden exceder los 150 caracteres');
     }
   }
 
@@ -55,8 +63,10 @@ const validatePersonData = (data, isUpdate = false) => {
     errors.push('Sexo debe ser menor a 50 caracteres');
   }
 
-  if (telefono !== undefined && telefono !== null && telefono.length > 20) {
-    errors.push('Teléfono debe ser menor a 20 caracteres');
+  if (telefono !== undefined && telefono !== null && telefono !== '') {
+    if (!/^\d{10}$/.test(telefono)) {
+      errors.push('El teléfono de contacto debe tener exactamente 10 dígitos y contener solo números');
+    }
   }
 
   if (foto !== undefined && foto !== null && foto.length > 1000) {

@@ -50,9 +50,13 @@ export const CreatePostPage = () => {
   }
 
   const handleChange = (e) => {
+    let { name, value } = e.target;
+    if (name === 'telefono') {
+      value = value.replace(/\D/g, '').slice(0, 10);
+    }
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: value
     });
   };
 
@@ -162,22 +166,30 @@ export const CreatePostPage = () => {
             </select>
           </div>
 
-          <textarea
-            name="senas_particulares"
-            placeholder="Señas particulares (tatuajes, cicatrices, lunares, vestimenta, etc.)"
-            value={formData.senas_particulares}
-            onChange={handleChange}
-            rows="3"
-          />
+          <div className="textarea-container">
+            <textarea
+              name="senas_particulares"
+              placeholder="Señas particulares (tatuajes, cicatrices, lunares, vestimenta, etc.)"
+              value={formData.senas_particulares}
+              onChange={handleChange}
+              rows="3"
+              maxLength="150"
+            />
+            <small className="char-limit">{(formData.senas_particulares || '').length}/150</small>
+          </div>
 
-          <textarea
-            name="descripcion"
-            placeholder="Descripción de los hechos y señas generales"
-            value={formData.descripcion}
-            onChange={handleChange}
-            rows="5"
-            required
-          />
+          <div className="textarea-container">
+            <textarea
+              name="descripcion"
+              placeholder="Descripción de los hechos y señas generales"
+              value={formData.descripcion}
+              onChange={handleChange}
+              rows="5"
+              maxLength="150"
+              required
+            />
+            <small className="char-limit">{(formData.descripcion || '').length}/150</small>
+          </div>
 
           {/* Selector de foto con preview múltiple */}
           <div className="photo-upload-section">

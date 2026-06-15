@@ -262,3 +262,17 @@
     gap: 12px;
   }
 }
+
+.textarea-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.textarea-container .char-limit {
+  align-self: flex-end;
+  font-size: 11px;
+  color: #888;
+  margin-top: -2px;
+  margin-right: 4px;
+}
