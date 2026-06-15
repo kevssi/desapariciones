@@ -82,6 +82,13 @@ export const EditPostPage = () => {
     let { name, value } = e.target;
     if (name === 'telefono') {
       value = value.replace(/\D/g, '').slice(0, 10);
+    } else if (name === 'nombre' || name === 'apellido') {
+      value = value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñüÜ\s-]/g, '');
+    } else if (name === 'edad') {
+      value = value.replace(/\D/g, '').slice(0, 3);
+      if (value && parseInt(value) > 120) {
+        value = '120';
+      }
     }
     setFormData({ ...formData, [name]: value });
   };

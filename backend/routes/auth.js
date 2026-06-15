@@ -21,8 +21,12 @@ router.post('/register', async (req, res) => {
     if (password.length < 6 || password.length > 100) {
       return res.status(400).json({ message: 'La contraseña debe tener entre 6 y 100 caracteres' });
     }
+    const nameRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñüÜ\s-]+$/;
     if (nombre.trim().length === 0 || nombre.length > 100 || apellido.trim().length === 0 || apellido.length > 100) {
       return res.status(400).json({ message: 'Nombre y apellido deben ser de entre 1 y 100 caracteres' });
+    }
+    if (!nameRegex.test(nombre) || !nameRegex.test(apellido)) {
+      return res.status(400).json({ message: 'Nombre y apellido no pueden contener números ni caracteres especiales' });
     }
 
     const existingUser = await User.findByEmail(email);
@@ -112,6 +116,10 @@ router.put('/profile', authMiddleware, async (req, res) => {
 
     if (nombre.trim().length === 0 || nombre.length > 100 || apellido.trim().length === 0 || apellido.length > 100) {
       return res.status(400).json({ message: 'Nombre y apellido deben ser de entre 1 y 100 caracteres' });
+    }
+    const nameRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñüÜ\s-]+$/;
+    if (!nameRegex.test(nombre) || !nameRegex.test(apellido)) {
+      return res.status(400).json({ message: 'Nombre y apellido no pueden contener números ni caracteres especiales' });
     }
 
     if (bio && bio.length > 250) {

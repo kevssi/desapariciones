@@ -123,9 +123,13 @@ export const RegisterPage = () => {
 
 
   const handleChange = (e) => {
+    let { name, value } = e.target;
+    if (name === 'nombre' || name === 'apellido') {
+      value = value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñüÜ\s-]/g, '');
+    }
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: value
     });
   };
 
