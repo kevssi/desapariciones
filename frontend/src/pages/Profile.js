@@ -325,7 +325,7 @@ export const ProfilePage = () => {
                   <FolderHeart className="empty-icon" size={48} />
                   <h3>No tienes publicaciones aún</h3>
                   <p>Si necesitas difundir la búsqueda de un ser querido, puedes crear un nuevo reporte.</p>
-                  <Link to="/create" className="btn-empty-publish">
+                  <Link to="/create" state={{ from: 'profile' }} className="btn-empty-publish">
                     Crear Reporte
                   </Link>
                 </>
@@ -345,7 +345,7 @@ export const ProfilePage = () => {
               {postsToDisplay.map((person) => {
                 const firstPhoto = person.foto ? person.foto.split(',')[0] : '';
                 return (
-                  <Link key={person.id} to={`/persona/${person.id}`} className="profile-post-card">
+                  <Link key={person.id} to={`/persona/${person.id}`} state={{ from: 'profile' }} className="profile-post-card">
                     {firstPhoto && (
                       <div className="profile-post-image">
                         <img src={firstPhoto} alt={`${person.nombre} ${person.apellido}`} />

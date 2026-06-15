@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import './Navbar.css';
 
 export const Navbar = () => {
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = () => {
@@ -44,7 +45,7 @@ export const Navbar = () => {
           {isAuthenticated ? (
             <>
               <li><Link to="/perfil">Mi Perfil</Link></li>
-              <li><Link to="/create">Publicar</Link></li>
+              <li><Link to="/create" state={location.pathname === '/perfil' ? { from: 'profile' } : undefined}>Publicar</Link></li>
               <li><button onClick={handleLogout} className="logout-btn">Cerrar Sesión</button></li>
             </>
           ) : (

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { missingPersonsService } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { uploadImageToCloudinary } from '../services/cloudinary';
@@ -27,12 +27,18 @@ export const CreatePostPage = () => {
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
   const { isAuthenticated } = useAuth();
   const { setBreadcrumb } = useBreadcrumb();
 
   useEffect(() => {
-    setBreadcrumb([{ label: 'Nueva Publicación', path: '/create' }]);
-  }, [setBreadcrumb]);
+    const crumbs = [];
+    if (location.state?.from === 'profile') {
+      crumbs.push({ label: 'Mi Perfil', path: '/perfil' });
+    }
+    crumbs.push({ label: 'Nueva Publicación', path: '/create' });
+    setBreadcrumb(crumbs);
+  }, [setBreadcrumb, location.state]);
 
   if (!isAuthenticated) {
     return (
@@ -96,7 +102,11 @@ export const CreatePostPage = () => {
       }
 
       await missingPersonsService.create({ ...formData, foto: fotoUrl });
-      navigate('/');
+      if (location.state?.from === 'profile') {
+        navigate('/perfil');
+      } else {
+        navigate('/');
+      }
     } catch (err) {
       setUploadingImage(false);
       setError(err.response?.data?.message || err.message || 'Error al crear la publicación');

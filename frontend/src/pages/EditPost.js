@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { missingPersonsService } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { uploadImageToCloudinary } from '../services/cloudinary';
@@ -10,6 +10,7 @@ import './CreatePost.css';
 export const EditPostPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const { user } = useAuth();
   const { setBreadcrumb } = useBreadcrumb();
 
@@ -65,12 +66,17 @@ export const EditPostPage = () => {
 
   useEffect(() => {
     if (formData && formData.nombre) {
-      setBreadcrumb([
-        { label: `${formData.nombre} ${formData.apellido}`, path: `/persona/${id}` },
+      const crumbs = [];
+      if (location.state?.from === 'profile') {
+        crumbs.push({ label: 'Mi Perfil', path: '/perfil' });
+      }
+      crumbs.push(
+        { label: `${formData.nombre} ${formData.apellido}`, path: `/persona/${id}`, state: location.state },
         { label: 'Editar', path: `/editar/${id}` }
-      ]);
+      );
+      setBreadcrumb(crumbs);
     }
-  }, [formData, id, setBreadcrumb]);
+  }, [formData, id, setBreadcrumb, location.state]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -129,7 +135,7 @@ export const EditPostPage = () => {
       const finalUrls = [...existingUrls, ...uploadedUrls].join(',');
 
       await missingPersonsService.update(id, { ...formData, foto: finalUrls });
-      navigate(`/persona/${id}`);
+      navigate(`/persona/${id}`, { state: location.state });
     } catch (err) {
       setUploadingImage(false);
       setError(err.response?.data?.message || err.message || 'Error al guardar los cambios.');
@@ -276,7 +282,7 @@ export const EditPostPage = () => {
           </div>
 
           <div style={{ display: 'flex', gap: '12px' }}>
-            <button type="button" onClick={() => navigate(`/persona/${id}`)}
+            <button type="button" onClick={() => navigate(`/persona/${id}`, { state: location.state })}
               style={{ background: '#f0f0f0', color: '#333', flex: 1 }}>
               Cancelar
             </button>

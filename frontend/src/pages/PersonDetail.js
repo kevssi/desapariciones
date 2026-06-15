@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link, useLocation } from 'react-router-dom';
 import { missingPersonsService, commentsService } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { useBreadcrumb } from '../context/BreadcrumbContext';
@@ -40,6 +40,7 @@ const formatCommentContent = (text) => {
 export const PersonDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const { isAuthenticated, user } = useAuth();
   const { setBreadcrumb } = useBreadcrumb();
 
@@ -96,9 +97,14 @@ export const PersonDetailPage = () => {
 
   useEffect(() => {
     if (person) {
-      setBreadcrumb([{ label: `${person.nombre} ${person.apellido}`, path: `/persona/${id}` }]);
+      const crumbs = [];
+      if (location.state?.from === 'profile') {
+        crumbs.push({ label: 'Mi Perfil', path: '/perfil' });
+      }
+      crumbs.push({ label: `${person.nombre} ${person.apellido}`, path: `/persona/${id}`, state: location.state });
+      setBreadcrumb(crumbs);
     }
-  }, [person, id, setBreadcrumb]);
+  }, [person, id, setBreadcrumb, location.state]);
 
   const isOwner = user && person && user.id === person.usuario_id;
 
@@ -142,7 +148,11 @@ export const PersonDetailPage = () => {
     if (!window.confirm('¿Seguro que quieres eliminar esta publicación?')) return;
     try {
       await missingPersonsService.delete(id);
-      navigate('/');
+      if (location.state?.from === 'profile') {
+        navigate('/perfil');
+      } else {
+        navigate('/');
+      }
     } catch {
       setError('Error al eliminar la publicación.');
     }
@@ -339,7 +349,7 @@ export const PersonDetailPage = () => {
             {/* Acciones del dueño */}
             {isOwner && (
               <div className="owner-actions">
-                <Link to={`/editar/${person.id}`} className="btn-edit">
+                <Link to={`/editar/${person.id}`} state={location.state} className="btn-edit">
                   <Pencil size={14} style={{ marginRight: '6px' }} /> Editar publicación
                 </Link>
                 <button className="btn-delete" onClick={handleDelete}>

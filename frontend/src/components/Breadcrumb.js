@@ -22,7 +22,7 @@ export const Breadcrumb = () => {
               <li key={index} className="breadcrumb-item">
                 {!isLast ? (
                   <>
-                    <Link to={crumb.path} className="breadcrumb-link">
+                    <Link to={crumb.path} state={crumb.state} className="breadcrumb-link">
                       {crumb.label}
                     </Link>
                     <span className="breadcrumb-sep" aria-hidden="true">›</span>
