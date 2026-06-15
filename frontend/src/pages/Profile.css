@@ -190,6 +190,8 @@
   color: #4a5568;
   font-style: italic;
   margin: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .bio-empty {
@@ -515,6 +517,8 @@
   color: #1a1a2e;
   margin: 0 0 6px 0;
   font-weight: 700;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .profile-post-info .edad {
@@ -531,6 +535,8 @@
   align-items: center;
   gap: 4px;
   margin: 0 0 12px 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .badge-estado {

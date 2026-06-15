@@ -95,6 +95,13 @@
   line-height: 1.7;
   font-size: 15px;
   margin-bottom: 24px;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.detail-senas p {
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 /* === Owner Actions === */
@@ -321,6 +328,8 @@
   color: #444;
   line-height: 1.6;
   margin: 0 0 8px;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 /* === Comment Action Buttons === */
