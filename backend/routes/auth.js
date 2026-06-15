@@ -14,6 +14,17 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email) || email.length > 255) {
+      return res.status(400).json({ message: 'Email inválido o demasiado largo (máx 255)' });
+    }
+    if (password.length < 6 || password.length > 100) {
+      return res.status(400).json({ message: 'La contraseña debe tener entre 6 y 100 caracteres' });
+    }
+    if (nombre.trim().length === 0 || nombre.length > 100 || apellido.trim().length === 0 || apellido.length > 100) {
+      return res.status(400).json({ message: 'Nombre y apellido deben ser de entre 1 y 100 caracteres' });
+    }
+
     const existingUser = await User.findByEmail(email);
     if (existingUser) {
       return res.status(400).json({ message: 'Email already registered' });
@@ -97,6 +108,18 @@ router.put('/profile', authMiddleware, async (req, res) => {
     const { nombre, apellido, foto_perfil, bio } = req.body;
     if (!nombre || !apellido) {
       return res.status(400).json({ message: 'Nombre y apellido son requeridos' });
+    }
+
+    if (nombre.trim().length === 0 || nombre.length > 100 || apellido.trim().length === 0 || apellido.length > 100) {
+      return res.status(400).json({ message: 'Nombre y apellido deben ser de entre 1 y 100 caracteres' });
+    }
+
+    if (bio && bio.length > 250) {
+      return res.status(400).json({ message: 'La biografía no puede exceder los 250 caracteres' });
+    }
+
+    if (foto_perfil && foto_perfil.length > 500) {
+      return res.status(400).json({ message: 'La URL de la foto de perfil no puede exceder los 500 caracteres' });
     }
 
     await User.update(req.userId, { nombre, apellido, foto_perfil, bio });

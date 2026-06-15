@@ -5,6 +5,71 @@ const Bookmark = require('../models/Bookmark');
 
 const router = express.Router();
 
+const validatePersonData = (data, isUpdate = false) => {
+  const errors = [];
+  const { nombre, apellido, edad, descripcion, fecha_desaparicion, ubicacion, sexo, telefono, foto, estado } = data;
+
+  if (!isUpdate || nombre !== undefined) {
+    if (!nombre || !nombre.trim() || nombre.length > 100) {
+      errors.push('Nombre es requerido y debe ser menor a 100 caracteres');
+    }
+  }
+
+  if (!isUpdate || apellido !== undefined) {
+    if (!apellido || !apellido.trim() || apellido.length > 100) {
+      errors.push('Apellido es requerido y debe ser menor a 100 caracteres');
+    }
+  }
+
+  if (edad !== undefined && edad !== null && edad !== '') {
+    const ageVal = parseInt(edad);
+    if (isNaN(ageVal) || ageVal < 0 || ageVal > 120) {
+      errors.push('Edad debe ser un número entero entre 0 y 120');
+    }
+  }
+
+  if (!isUpdate || descripcion !== undefined) {
+    if (!descripcion || !descripcion.trim()) {
+      errors.push('Descripción es requerida');
+    }
+  }
+
+  if (!isUpdate || fecha_desaparicion !== undefined) {
+    if (!fecha_desaparicion) {
+      errors.push('Fecha de desaparición es requerida');
+    } else {
+      const dateVal = new Date(fecha_desaparicion);
+      if (isNaN(dateVal.getTime()) || dateVal > new Date()) {
+        errors.push('Fecha de desaparición inválida o en el futuro');
+      }
+    }
+  }
+
+  if (!isUpdate || ubicacion !== undefined) {
+    if (!ubicacion || !ubicacion.trim() || ubicacion.length > 255) {
+      errors.push('Ubicación es requerida y debe ser menor a 255 caracteres');
+    }
+  }
+
+  if (sexo !== undefined && sexo !== null && sexo.length > 50) {
+    errors.push('Sexo debe ser menor a 50 caracteres');
+  }
+
+  if (telefono !== undefined && telefono !== null && telefono.length > 20) {
+    errors.push('Teléfono debe ser menor a 20 caracteres');
+  }
+
+  if (foto !== undefined && foto !== null && foto.length > 1000) {
+    errors.push('La URL de la foto es demasiado larga (máx 1000)');
+  }
+
+  if (estado !== undefined && !['activa', 'encontrada', 'cerrada'].includes(estado)) {
+    errors.push('Estado inválido');
+  }
+
+  return errors;
+};
+
 // Obtener todas las personas desaparecidas
 router.get('/', async (req, res) => {
   try {
@@ -90,6 +155,11 @@ router.get('/:id/is-saved', authMiddleware, async (req, res) => {
 // Crear publicación (requiere autenticación)
 router.post('/', authMiddleware, async (req, res) => {
   try {
+    const errors = validatePersonData(req.body, false);
+    if (errors.length > 0) {
+      return res.status(400).json({ message: 'Errores de validación', errors });
+    }
+
     const {
       nombre,
       apellido,
@@ -135,6 +205,11 @@ router.put('/:id', authMiddleware, async (req, res) => {
 
     if (person.usuario_id !== req.userId) {
       return res.status(403).json({ message: 'Not authorized to update this post' });
+    }
+
+    const errors = validatePersonData(req.body, true);
+    if (errors.length > 0) {
+      return res.status(400).json({ message: 'Errores de validación', errors });
     }
 
     await MissingPerson.update(req.params.id, req.body);

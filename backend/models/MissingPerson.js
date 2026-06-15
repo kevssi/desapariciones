@@ -64,13 +64,31 @@ class MissingPerson {
   }
 
   static async update(id, personData) {
+    const allowedFields = [
+      'nombre',
+      'apellido',
+      'edad',
+      'descripcion',
+      'foto',
+      'fecha_desaparicion',
+      'ubicacion',
+      'estado',
+      'sexo',
+      'senas_particulares',
+      'telefono'
+    ];
+
     const fields = [];
     const values = [];
 
     Object.entries(personData).forEach(([key, value]) => {
-      fields.push(`${key} = ?`);
-      values.push(value);
+      if (allowedFields.includes(key)) {
+        fields.push(`${key} = ?`);
+        values.push(value);
+      }
     });
+
+    if (fields.length === 0) return 0;
 
     values.push(id);
 

@@ -21,6 +21,9 @@ router.post('/:personaId', authMiddleware, async (req, res) => {
     if (!contenido || !contenido.trim()) {
       return res.status(400).json({ message: 'El comentario no puede estar vacío' });
     }
+    if (contenido.length > 500) {
+      return res.status(400).json({ message: 'El comentario no puede exceder los 500 caracteres' });
+    }
 
     const id = await Comment.create(
       req.params.personaId,
@@ -45,6 +48,9 @@ router.put('/:commentId', authMiddleware, async (req, res) => {
     const { contenido } = req.body;
     if (!contenido || !contenido.trim()) {
       return res.status(400).json({ message: 'El comentario no puede estar vacío' });
+    }
+    if (contenido.length > 500) {
+      return res.status(400).json({ message: 'El comentario no puede exceder los 500 caracteres' });
     }
 
     const comment = await Comment.findById(req.params.commentId);

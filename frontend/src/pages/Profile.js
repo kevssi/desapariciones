@@ -95,7 +95,7 @@ export const ProfilePage = () => {
       setProfile(prev => ({ ...prev, foto_perfil: photoUrl }));
       
       // Actualizar datos de sesión del AuthContext
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       login({ ...user, foto_perfil: photoUrl }, token);
       
       setSuccessMsg('Foto de perfil actualizada con éxito.');
@@ -133,7 +133,7 @@ export const ProfilePage = () => {
       }));
 
       // Sincronizar contexto
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       login({ 
         ...user, 
         nombre: formData.nombre.trim(), 
