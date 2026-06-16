@@ -251,7 +251,8 @@ export const ProfilePage = () => {
                   <input 
                     type="text"
                     value={formData.nombre}
-                    onChange={(e) => setFormData({ ...formData, nombre: e.target.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñüÜ\s-]/g, '') })}
+                    onChange={(e) => setFormData({ ...formData, nombre: e.target.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñüÜ\s-]/g, '').slice(0, 15) })}
+                    maxLength="15"
                     required
                   />
                 </div>
@@ -260,7 +261,8 @@ export const ProfilePage = () => {
                   <input 
                     type="text"
                     value={formData.apellido}
-                    onChange={(e) => setFormData({ ...formData, apellido: e.target.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñüÜ\s-]/g, '') })}
+                    onChange={(e) => setFormData({ ...formData, apellido: e.target.value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñüÜ\s-]/g, '').slice(0, 15) })}
+                    maxLength="15"
                     required
                   />
                 </div>

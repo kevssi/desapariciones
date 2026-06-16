@@ -240,7 +240,7 @@ export const PersonDetailPage = () => {
         {error && <div className="detail-error-banner">{error}</div>}
 
         {/* Cabecera */}
-        <div className="detail-header">
+        <div className={`detail-header ${(!person.foto || !person.foto.trim()) ? 'no-photo' : ''}`}>
           {person.foto && (
             <div className="detail-photo-wrapper">
               <div className="carousel-container">

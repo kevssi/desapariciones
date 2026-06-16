@@ -125,7 +125,7 @@ export const RegisterPage = () => {
   const handleChange = (e) => {
     let { name, value } = e.target;
     if (name === 'nombre' || name === 'apellido') {
-      value = value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñüÜ\s-]/g, '');
+      value = value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñüÜ\s-]/g, '').slice(0, 15);
     }
     setFormData({
       ...formData,
@@ -206,6 +206,7 @@ export const RegisterPage = () => {
             placeholder="Nombre"
             value={formData.nombre}
             onChange={handleChange}
+            maxLength="15"
             required
           />
           <input
@@ -214,6 +215,7 @@ export const RegisterPage = () => {
             placeholder="Apellido"
             value={formData.apellido}
             onChange={handleChange}
+            maxLength="15"
             required
           />
           <input

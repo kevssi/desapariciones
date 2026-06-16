@@ -12,16 +12,16 @@ const validatePersonData = (data, isUpdate = false) => {
   const nameRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñüÜ\s-]+$/;
 
   if (!isUpdate || nombre !== undefined) {
-    if (!nombre || !nombre.trim() || nombre.length > 100) {
-      errors.push('Nombre es requerido y debe ser menor a 100 caracteres');
+    if (!nombre || !nombre.trim() || nombre.length > 15) {
+      errors.push('Nombre es requerido y debe ser menor a 15 caracteres');
     } else if (!nameRegex.test(nombre)) {
       errors.push('El nombre no puede contener números ni caracteres especiales');
     }
   }
 
   if (!isUpdate || apellido !== undefined) {
-    if (!apellido || !apellido.trim() || apellido.length > 100) {
-      errors.push('Apellido es requerido y debe ser menor a 100 caracteres');
+    if (!apellido || !apellido.trim() || apellido.length > 15) {
+      errors.push('Apellido es requerido y debe ser menor a 15 caracteres');
     } else if (!nameRegex.test(apellido)) {
       errors.push('El apellido no puede contener números ni caracteres especiales');
     }

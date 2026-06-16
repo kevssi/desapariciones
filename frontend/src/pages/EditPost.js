@@ -84,7 +84,7 @@ export const EditPostPage = () => {
     if (name === 'telefono') {
       value = value.replace(/\D/g, '').slice(0, 10);
     } else if (name === 'nombre' || name === 'apellido') {
-      value = value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñüÜ\s-]/g, '');
+      value = value.replace(/[^A-Za-zÁÉÍÓÚáéíóúÑñüÜ\s-]/g, '').slice(0, 15);
     } else if (name === 'edad') {
       value = value.replace(/\D/g, '').slice(0, 3);
       if (value && parseInt(value) > 120) {
@@ -193,6 +193,7 @@ export const EditPostPage = () => {
               placeholder="Nombre"
               value={formData.nombre}
               onChange={handleChange}
+              maxLength="15"
               required
             />
             <input
@@ -201,6 +202,7 @@ export const EditPostPage = () => {
               placeholder="Apellido"
               value={formData.apellido}
               onChange={handleChange}
+              maxLength="15"
               required
             />
           </div>
@@ -305,6 +307,7 @@ export const EditPostPage = () => {
               placeholder="Última ubicación conocida"
               value={formData.ubicacion}
               onChange={handleChange}
+              maxLength="255"
               required
             />
             <input

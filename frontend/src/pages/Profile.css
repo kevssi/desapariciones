@@ -160,6 +160,8 @@
   color: #1a1a2e;
   margin: 0 0 10px 0;
   letter-spacing: -0.5px;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .profile-email, .profile-date {

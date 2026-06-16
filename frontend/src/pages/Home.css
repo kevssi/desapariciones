@@ -422,6 +422,8 @@
   font-size: 20px;
   color: #1a1a2e;
   font-weight: 700;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .person-info p {
