@@ -346,12 +346,14 @@ export const PersonDetailPage = () => {
             
             <p className="detail-descripcion">{person.descripcion}</p>
 
-            {/* Acciones del dueño */}
-            {isOwner && (
+            {/* Acciones del dueño o administrador */}
+            {(isOwner || (user && user.rol === 'admin')) && (
               <div className="owner-actions">
-                <Link to={`/editar/${person.id}`} state={location.state} className="btn-edit">
-                  <Pencil size={14} style={{ marginRight: '6px' }} /> Editar publicación
-                </Link>
+                {isOwner && (
+                  <Link to={`/editar/${person.id}`} state={location.state} className="btn-edit">
+                    <Pencil size={14} style={{ marginRight: '6px' }} /> Editar publicación
+                  </Link>
+                )}
                 <button className="btn-delete" onClick={handleDelete}>
                   <Trash2 size={14} style={{ marginRight: '6px' }} /> Eliminar
                 </button>
@@ -431,6 +433,7 @@ export const PersonDetailPage = () => {
 
                 const renderCommentNode = (comment, isReply = false) => {
                   const hasEditAccess = user && user.id === comment.usuario_id;
+                  const hasDeleteAccess = user && (user.id === comment.usuario_id || user.rol === 'admin');
                   
                   return (
                     <div key={comment.id} className={`comment-item ${isReply ? 'comment-reply-item' : ''}`}>
@@ -495,27 +498,31 @@ export const PersonDetailPage = () => {
                             </button>
                           )}
                           
-                          {hasEditAccess && (
+                          {(hasEditAccess || hasDeleteAccess) && (
                             <>
-                              <button
-                                type="button"
-                                className="comment-action-btn edit-btn"
-                                onClick={() => {
-                                  setEditingCommentId(comment.id);
-                                  setEditContent(comment.contenido);
-                                }}
-                                style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}
-                              >
-                                <Pencil size={12} /> Editar
-                              </button>
-                              <button
-                                type="button"
-                                className="comment-action-btn delete-btn"
-                                onClick={() => handleDeleteComment(comment.id)}
-                                style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}
-                              >
-                                <Trash2 size={12} /> Eliminar
-                              </button>
+                              {hasEditAccess && (
+                                <button
+                                  type="button"
+                                  className="comment-action-btn edit-btn"
+                                  onClick={() => {
+                                    setEditingCommentId(comment.id);
+                                    setEditContent(comment.contenido);
+                                  }}
+                                  style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+                                >
+                                  <Pencil size={12} /> Editar
+                                </button>
+                              )}
+                              {hasDeleteAccess && (
+                                <button
+                                  type="button"
+                                  className="comment-action-btn delete-btn"
+                                  onClick={() => handleDeleteComment(comment.id)}
+                                  style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+                                >
+                                  <Trash2 size={12} /> Eliminar
+                                </button>
+                              )}
                             </>
                           )}
                         </div>

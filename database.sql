@@ -19,7 +19,8 @@ CREATE TABLE usuarios (
   apellido VARCHAR(100) NOT NULL,
   foto_perfil VARCHAR(500),
   fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  bio TEXT DEFAULT NULL
+  bio TEXT DEFAULT NULL,
+  rol VARCHAR(20) DEFAULT 'user'
 );
 
 -- Tabla de personas desaparecidas

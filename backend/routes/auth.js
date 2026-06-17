@@ -37,7 +37,7 @@ router.post('/register', async (req, res) => {
     const userId = await User.create({ email, password, nombre, apellido });
 
     const token = jwt.sign(
-      { id: userId, email },
+      { id: userId, email, rol: 'user' },
       process.env.JWT_SECRET || 'secret',
       { expiresIn: '7d' }
     );
@@ -47,7 +47,8 @@ router.post('/register', async (req, res) => {
       token,
       userId,
       nombre,
-      apellido
+      apellido,
+      rol: 'user'
     });
   } catch (error) {
     console.error('Register error:', error);
@@ -75,7 +76,7 @@ router.post('/login', async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: user.id, email: user.email },
+      { id: user.id, email: user.email, rol: user.rol },
       process.env.JWT_SECRET || 'secret',
       { expiresIn: '7d' }
     );
@@ -85,7 +86,8 @@ router.post('/login', async (req, res) => {
       token,
       userId: user.id,
       nombre: user.nombre,
-      apellido: user.apellido
+      apellido: user.apellido,
+      rol: user.rol
     });
   } catch (error) {
     console.error('Login error:', error);

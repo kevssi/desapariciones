@@ -20,7 +20,7 @@ class User {
   }
 
   static async findById(id) {
-    const [rows] = await pool.query('SELECT id, email, nombre, apellido, foto_perfil, bio, fecha_creacion FROM usuarios WHERE id = ?', [id]);
+    const [rows] = await pool.query('SELECT id, email, nombre, apellido, foto_perfil, bio, fecha_creacion, rol FROM usuarios WHERE id = ?', [id]);
     return rows[0];
   }
 

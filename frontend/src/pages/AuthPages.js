@@ -26,7 +26,8 @@ export const LoginPage = () => {
         id: response.data.userId, 
         email, 
         nombre: response.data.nombre, 
-        apellido: response.data.apellido 
+        apellido: response.data.apellido,
+        rol: response.data.rol
       }, response.data.token);
       navigate('/');
     } catch (err) {
@@ -145,7 +146,7 @@ export const RegisterPage = () => {
         formData.nombre,
         formData.apellido
       );
-      login({ id: response.data.userId, ...formData }, response.data.token);
+      login({ id: response.data.userId, ...formData, rol: response.data.rol || 'user' }, response.data.token);
       navigate('/');
     } catch (err) {
       setError(err.response?.data?.message || 'Error en el registro');

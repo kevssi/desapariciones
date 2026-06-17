@@ -1,6 +1,7 @@
 const express = require('express');
 const authMiddleware = require('../middleware/auth');
 const Comment = require('../models/Comment');
+const User = require('../models/User');
 
 const router = express.Router();
 
@@ -78,8 +79,8 @@ router.delete('/:commentId', authMiddleware, async (req, res) => {
       return res.status(404).json({ message: 'Comentario no encontrado' });
     }
 
-    // Verificar seguridad: que el usuario que elimina sea el autor
-    if (comment.usuario_id !== req.userId) {
+    const userRole = req.user.rol || (await User.findById(req.userId))?.rol;
+    if (comment.usuario_id !== req.userId && userRole !== 'admin') {
       return res.status(403).json({ message: 'No autorizado para eliminar este comentario' });
     }
 

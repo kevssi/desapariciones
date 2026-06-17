@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
       authService.getProfile()
         .then(res => {
           const profile = res.data;
-          const updatedUser = { ...user, id: profile.id, nombre: profile.nombre, apellido: profile.apellido };
+          const updatedUser = { ...user, id: profile.id, nombre: profile.nombre, apellido: profile.apellido, rol: profile.rol };
           setUser(updatedUser);
           sessionStorage.setItem('user', JSON.stringify(updatedUser));
         })

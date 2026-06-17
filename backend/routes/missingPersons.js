@@ -2,6 +2,7 @@ const express = require('express');
 const authMiddleware = require('../middleware/auth');
 const MissingPerson = require('../models/MissingPerson');
 const Bookmark = require('../models/Bookmark');
+const User = require('../models/User');
 
 const router = express.Router();
 
@@ -244,7 +245,8 @@ router.delete('/:id', authMiddleware, async (req, res) => {
       return res.status(404).json({ message: 'Person not found' });
     }
 
-    if (person.usuario_id !== req.userId) {
+    const userRole = req.user.rol || (await User.findById(req.userId))?.rol;
+    if (person.usuario_id !== req.userId && userRole !== 'admin') {
       return res.status(403).json({ message: 'Not authorized to delete this post' });
     }
 
