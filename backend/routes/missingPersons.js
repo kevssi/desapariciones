@@ -54,15 +54,18 @@ const validatePersonData = (data, isUpdate = false) => {
       errors.push('Fecha de desaparición es requerida');
     } else {
       const dateVal = new Date(fecha_desaparicion);
+      const minDate = new Date('2000-01-01');
       if (isNaN(dateVal.getTime()) || dateVal > new Date()) {
         errors.push('Fecha de desaparición inválida o en el futuro');
+      } else if (dateVal < minDate) {
+        errors.push('La fecha de desaparición debe ser a partir del año 2000');
       }
     }
   }
 
   if (!isUpdate || ubicacion !== undefined) {
-    if (!ubicacion || !ubicacion.trim() || ubicacion.length > 255) {
-      errors.push('Ubicación es requerida y debe ser menor a 255 caracteres');
+    if (!ubicacion || !ubicacion.trim() || ubicacion.length > 50) {
+      errors.push('Ubicación es requerida y debe ser menor a 50 caracteres');
     }
   }
 

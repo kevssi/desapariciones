@@ -539,6 +539,7 @@
   margin: 0 0 12px 0;
   overflow-wrap: break-word;
   word-break: break-word;
+  flex-wrap: wrap;
 }
 
 .badge-estado {

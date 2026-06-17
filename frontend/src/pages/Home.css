@@ -444,6 +444,8 @@
 .ubicacion {
   color: #1e9b8f;
   font-weight: 500;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .descripcion {

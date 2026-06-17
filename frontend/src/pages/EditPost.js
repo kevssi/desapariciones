@@ -90,6 +90,8 @@ export const EditPostPage = () => {
       if (value && parseInt(value) > 120) {
         value = '120';
       }
+    } else if (name === 'ubicacion') {
+      value = value.slice(0, 50);
     }
     setFormData({ ...formData, [name]: value });
   };
@@ -297,6 +299,8 @@ export const EditPostPage = () => {
             name="fecha_desaparicion"
             value={formData.fecha_desaparicion}
             onChange={handleChange}
+            min="2000-01-01"
+            max={new Date().toISOString().split('T')[0]}
             required
           />
 
@@ -307,7 +311,7 @@ export const EditPostPage = () => {
               placeholder="Última ubicación conocida"
               value={formData.ubicacion}
               onChange={handleChange}
-              maxLength="255"
+              maxLength="50"
               required
             />
             <input

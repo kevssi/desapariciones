@@ -22,6 +22,12 @@ export const authService = {
   login: (email, password) =>
     api.post('/auth/login', { email, password }),
   
+  verify: (email, codigo) =>
+    api.post('/auth/verify', { email, codigo }),
+  
+  resendCode: (email) =>
+    api.post('/auth/resend-code', { email }),
+  
   getProfile: () =>
     api.get('/auth/profile'),
 

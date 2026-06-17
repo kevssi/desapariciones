@@ -220,7 +220,7 @@ export const HomePage = () => {
                           <h3>{person.nombre} {person.apellido}</h3>
                           {person.edad && <p className="edad">Edad: {person.edad} años</p>}
                           <p className="fecha">Desaparecido: {new Date(person.fecha_desaparicion).toLocaleDateString('es-ES')}</p>
-                          <p className="ubicacion" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <p className="ubicacion" style={{ display: 'flex', alignItems: 'center', gap: '4px', flexWrap: 'wrap' }}>
                             <MapPin size={14} style={{ color: '#2b7d9e' }} /> {person.ubicacion}
                           </p>
                           <p className="descripcion">{person.descripcion}</p>
@@ -416,7 +416,7 @@ export const HomePage = () => {
                           <h3>{person.nombre} {person.apellido}</h3>
                           {person.edad && <p className="edad">Edad: {person.edad} años</p>}
                           <p className="fecha">Desaparecido: {new Date(person.fecha_desaparicion).toLocaleDateString('es-ES')}</p>
-                          <p className="ubicacion" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <p className="ubicacion" style={{ display: 'flex', alignItems: 'center', gap: '4px', flexWrap: 'wrap' }}>
                             <MapPin size={14} style={{ color: '#2b7d9e' }} /> {person.ubicacion}
                           </p>
                           <p className="descripcion">{person.descripcion}</p>

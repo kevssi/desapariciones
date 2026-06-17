@@ -2,8 +2,11 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const authMiddleware = require('../middleware/auth');
+const { sendVerificationEmail } = require('../config/mailer');
 
 const router = express.Router();
+
+const generateVerificationCode = () => Math.floor(100000 + Math.random() * 900000).toString();
 
 // Registro
 router.post('/register', async (req, res) => {
@@ -34,21 +37,26 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ message: 'Email already registered' });
     }
 
-    const userId = await User.create({ email, password, nombre, apellido });
+    const code = generateVerificationCode();
 
-    const token = jwt.sign(
-      { id: userId, email, rol: 'user' },
-      process.env.JWT_SECRET || 'secret',
-      { expiresIn: '7d' }
-    );
+    const userId = await User.create({ 
+      email, 
+      password, 
+      nombre, 
+      apellido,
+      codigo_verificacion: code
+    });
+
+    try {
+      await sendVerificationEmail(email, nombre, code);
+    } catch (mailError) {
+      console.error('Error al enviar el correo de verificación inicial:', mailError);
+    }
 
     res.status(201).json({
-      message: 'User registered',
-      token,
-      userId,
-      nombre,
-      apellido,
-      rol: 'user'
+      message: 'Usuario registrado. Se ha enviado un código de verificación a tu correo.',
+      email,
+      needsVerification: true
     });
   } catch (error) {
     console.error('Register error:', error);
@@ -75,6 +83,21 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
+    if (user.verificado === 0) {
+      const code = generateVerificationCode();
+      await User.updateVerificationCode(email, code);
+      try {
+        await sendVerificationEmail(email, user.nombre, code);
+      } catch (mailError) {
+        console.error('Error al reenviar correo en login:', mailError);
+      }
+      return res.status(403).json({
+        message: 'Tu cuenta de correo no está verificada. Te hemos enviado un nuevo código de verificación.',
+        needsVerification: true,
+        email
+      });
+    }
+
     const token = jwt.sign(
       { id: user.id, email: user.email, rol: user.rol },
       process.env.JWT_SECRET || 'secret',
@@ -91,6 +114,71 @@ router.post('/login', async (req, res) => {
     });
   } catch (error) {
     console.error('Login error:', error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
+// Verificar Código
+router.post('/verify', async (req, res) => {
+  try {
+    const { email, codigo } = req.body;
+
+    if (!email || !codigo) {
+      return res.status(400).json({ message: 'Email y código son requeridos' });
+    }
+
+    const userId = await User.verifyCode(email, codigo);
+    if (!userId) {
+      return res.status(400).json({ message: 'Código de verificación incorrecto o expirado' });
+    }
+
+    const user = await User.findById(userId);
+    const token = jwt.sign(
+      { id: userId, email, rol: user.rol },
+      process.env.JWT_SECRET || 'secret',
+      { expiresIn: '7d' }
+    );
+
+    res.json({
+      message: 'Cuenta verificada con éxito',
+      token,
+      userId,
+      nombre: user.nombre,
+      apellido: user.apellido,
+      rol: user.rol
+    });
+  } catch (error) {
+    console.error('Verification error:', error);
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
+// Reenviar Código
+router.post('/resend-code', async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ message: 'Email es requerido' });
+    }
+
+    const user = await User.findByEmail(email);
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    if (user.verificado === 1) {
+      return res.status(400).json({ message: 'Este correo ya ha sido verificado' });
+    }
+
+    const code = generateVerificationCode();
+    await User.updateVerificationCode(email, code);
+    
+    await sendVerificationEmail(email, user.nombre, code);
+
+    res.json({ message: 'Código de verificación reenviado con éxito' });
+  } catch (error) {
+    console.error('Resend code error:', error);
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 });

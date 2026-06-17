@@ -94,8 +94,12 @@
 
 .detail-meta span {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 6px;
+  flex-wrap: wrap;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  min-width: 0;
 }
 
 .detail-descripcion {
